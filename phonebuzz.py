@@ -17,15 +17,17 @@ def fizzbuzz(maximum):
             results += str(i)
     return results
 
+@app.route('/phase1_response', methods=['GET', 'POST'])
+def read_fizzbuzz():
+    response = twiml.Response()
+    response.say(fizzbuzz(int(request.data)))
+    return str(response)
+
 @app.route('/phase1', methods=['GET', 'POST'])
 def generate_twiml():
     response = twiml.Response()
-    if len(request.data) > 0:
-        response.say(fizzbuzz(int(request.data)))
-    else:
-        response.say("Please enter a number followed by the pound sign")
-        response.gather()
-
+    response.say("Please enter a number followed by the pound sign")
+    response.gather(action='phase1_response')
     return str(response)
 
 if __name__ == "__main__":
