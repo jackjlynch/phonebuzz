@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 def fizzbuzz(maximum):
     results = ''
-    for i in range(maximum + 1):
+    for i in range(1, maximum + 1):
         if i % 3 == 0 and i % 5 == 0:
             results += "fizz buzz"
         elif i % 3 == 0:
