@@ -8,13 +8,13 @@ def fizzbuzz(maximum):
     results = ''
     for i in range(1, maximum + 1):
         if i % 3 == 0 and i % 5 == 0:
-            results += "fizz buzz"
+            results += "fizz buzz "
         elif i % 3 == 0:
-            results += "fizz"
+            results += "fizz "
         elif i % 5 == 0:
-            results += "buzz"
+            results += "buzz "
         else:
-            results += str(i)
+            results += str(i) + ' '
     return results
 
 @app.route('/phase1_response', methods=['GET', 'POST'])
