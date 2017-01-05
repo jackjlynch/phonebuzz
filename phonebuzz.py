@@ -2,18 +2,14 @@ from flask import Flask, abort, request
 from functools import wraps
 from twilio import twiml
 from twilio.util import RequestValidator
-import configparser
+from os import environ
 
 app = Flask(__name__)
-
-config = configparser.ConfigParser()
-config.read('config.txt')
-
 
 def validate_twilio(func):
     @wraps(func)
     def decorated_function(*args, **kwargs):
-        validator = RequestValidator(config['Twilio']['AuthToken'])
+        validator = RequestValidator(environ['TWILIO_AUTH'])
 
         # verify that the twilio headers are signed
         if validator.validate(request.url, request.form,

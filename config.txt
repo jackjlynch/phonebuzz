@@ -1,2 +1,2 @@
 [Twilio]
-AuthToken = auth token goes here
+AuthToken = d2b04d2507fe0bba2661a1410ec78fb2
