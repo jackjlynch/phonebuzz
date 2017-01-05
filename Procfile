@@ -1,1 +1,1 @@
-web: python phonebuzz.py
+web: gunicorn phonebuzz:app
