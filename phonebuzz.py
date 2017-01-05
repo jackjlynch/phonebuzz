@@ -55,9 +55,8 @@ def number_submission():
 def call_with_prompt():
     client = TwilioRestClient(environ['TWILIO_SID'], environ['TWILIO_AUTH'])
 
-    call = client.calls.create(url=request.url[:-1] + '1', to=request.form['phone_number'],
-                               from_="+12406247052")
-    return(str(call.sid))
+    client.calls.create(url=request.url[:-1] + '1', to=request.form['phone_number'],
+                        from_="+12406247052")
 
 
 if __name__ == "__main__":
