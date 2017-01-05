@@ -23,8 +23,8 @@ def make_celery(app):
 # create the flask app
 app = Flask(__name__)
 app.config.update(
-    CELERY_RESULT_BACKEND='redis://localhost:6379',
-    CELERY_BROKER_URL='redis://localhost:6379'
+    CELERY_RESULT_BACKEND=environ['REDIS_URL'],
+    CELERY_BROKER_URL=environ['REDIS_URL']
 )
 
 celery = make_celery(app)
