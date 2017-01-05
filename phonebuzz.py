@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import request
 from twilio import twiml
 
 app = Flask(__name__)
@@ -19,7 +20,11 @@ def fizzbuzz(maximum):
 @app.route('/phase1', methods=['GET', 'POST'])
 def generate_twiml():
     response = twiml.Response()
-    response.say("Please enter a number")
+    if len(request.data) > 0:
+        response.say(fizzbuzz(int(request.data)))
+    else:
+        response.say("Please enter a number followed by the pound sign")
+        response.gather()
 
     return str(response)
 
