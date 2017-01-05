@@ -1,6 +1,7 @@
-from flask import Flask, abort, request
+from flask import Flask, abort, render_template, request
 from functools import wraps
 from twilio import twiml
+from twilio.rest import TwilioRestClient
 from twilio.util import RequestValidator
 from os import environ
 
@@ -45,6 +46,19 @@ def generate_twiml():
     with response.gather(action='phase1_response') as gather:
         gather.say("Please enter a number followed by the pound sign")
     return str(response)
+
+@app.route('/phase2', methods=['GET'])
+def number_submission():
+    return render_template("phase2.html")
+
+@app.route('/phase2', methods=['POST'])
+def call_with_prompt():
+    client = TwilioRestClient(environ['TWILIO_SID'], environ['TWILIO_AUTH'])
+
+    call = client.calls.create(url=request.url[:-1] + '1', to=request.form['phone_number'],
+                               from_="+12406247052")
+    return(str(call.sid))
+
 
 if __name__ == "__main__":
     app.run()
