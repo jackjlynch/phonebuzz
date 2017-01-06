@@ -5,6 +5,7 @@ from twilio.rest import TwilioRestClient
 from twilio.util import RequestValidator
 from os import environ
 from celery import Celery
+from datetime import datetime
 
 def make_celery(app):
     """Initialize a celery instance for delayed tasks"""
@@ -77,6 +78,7 @@ def generate_twiml():
 
 @celery.task()
 def call_with_prompt(number):
+    """Call the given phone number and read it the fizzbuzz prompt"""
     client = TwilioRestClient(environ['TWILIO_SID'], environ['TWILIO_AUTH'])
 
     client.calls.create(url=environ['TWILIO_URL'], to=number,
@@ -99,6 +101,55 @@ def number_submission_with_delay():
 @app.route('/phase3', methods=['POST'])
 def delayed_call():
     call_with_prompt.apply_async((request.form['phone_number'],), countdown=int(request.form['seconds']))
+
+    return redirect(redirect_url())
+
+#
+# phase 4
+#
+
+# just going to keep the call history simply in memory
+# as opposed to a more complicated db setup
+call_history = {}
+
+@app.route('/phase4_response', methods=['GET', 'POST'])
+@validate_twilio
+def read_fizzbuzz_logged():
+    response = twiml.Response()
+    response.say(fizzbuzz(int(request.values['Digits'])))
+    print(str(call_history))
+    call_history[request.form['CallSid']].fizzbuzz = request.values['Digits']
+    return str(response)
+
+@app.route('/phase4_call', methods=['GET', 'POST'])
+@validate_twilio
+def generate_twiml_logged():
+    response = twiml.Response()
+    with response.gather(action='phase4_response') as gather:
+        gather.say("Please enter a number followed by the pound sign")
+    return str(response)
+
+@celery.task()
+def call_with_logged_prompt(number):
+    """Call the given phone number and read it the fizzbuzz prompt"""
+    client = TwilioRestClient(environ['TWILIO_SID'], environ['TWILIO_AUTH'])
+
+    call = client.calls.create(url=environ['TWILIO_URL_LOGGED'], to=number,
+                               from_=environ['TWILIO_NUMBER'])
+    return call.sid
+
+@app.route('/phase4', methods=['GET'])
+def history_page():
+    return render_template("phase4.html", call_history=call_history)
+
+@app.route('/phase4', methods=['POST'])
+def logged_call():
+    task = call_with_logged_prompt.apply_async((request.form['phone_number'],),
+                                               countdown=int(request.form['seconds']))
+    sid = task.get()
+    call_history[sid] = {'phone_number': request.form['phone_number']}
+    call_history[sid]['time'] = str(datetime.now())
+    call_history[sid]['delay'] = request.form['seconds']
 
     return redirect(redirect_url())
 

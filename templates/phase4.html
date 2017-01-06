@@ -1,0 +1,25 @@
+<html>
+  <form method="post">
+    Enter a phone number: <input type="tel" name="phone_number">
+    Enter a time in whole seconds: <input type="number" name="seconds">
+    <input type="submit">
+  </form>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Phone Number</th>
+        <th>Call Time (not request time)</th>
+        <th>Delay</th>
+        <th>FizzBuzz Number</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for call in call_history %}
+        <tr>
+          <td>{{ call_history[call]['phone_number'] }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {{ call_history }}
+</html>
