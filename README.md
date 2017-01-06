@@ -11,7 +11,7 @@ celery -A phonebuzz.celery worker &
 python phonebuzz.py
 ```
 Alternatively, `heroku local` will also launch phonebuzz if you have heroku installed.
-The following environment variables must be set:
+The following environment variables must be set either way:
 * REDIS_URL: the url of the redis server
 * TWILIO_AUTH: your Twilio auth key
 * TWILIO_NUMBER: the Twilio number to call from in phases 2, 3 and 4
