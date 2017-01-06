@@ -21,10 +21,10 @@ The following environment variables must be set:
 
 The Phonebuzz phases are accessible at:
 
-1 (240) 624-7052
-2 https://pacific-atoll-20313.herokuapp.com/phase2
-3 https://pacific-atoll-20313.herokuapp.com/phase3
-4 https://pacific-atoll-20313.herokuapp.com/phase4
+1. (240) 624-7052
+2. https://pacific-atoll-20313.herokuapp.com/phase2
+3. https://pacific-atoll-20313.herokuapp.com/phase3
+4. https://pacific-atoll-20313.herokuapp.com/phase4
 
 
 Current limitations/to do (due to limited time):
