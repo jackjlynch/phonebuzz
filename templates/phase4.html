@@ -17,9 +17,11 @@
       {% for call in call_history %}
         <tr>
           <td>{{ call_history[call]['phone_number'] }}</td>
+          <td>{{ call_history[call]['time'] }}</td>
+          <td>{{ call_history[call]['delay'] }}</td>
+          <td>{{ call_history[call]['fizzbuzz'] }}</td>
         </tr>
       {% endfor %}
     </tbody>
   </table>
-  {{ call_history }}
 </html>

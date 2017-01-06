@@ -105,11 +105,9 @@ def delayed_call():
     return redirect(redirect_url())
 
 #
-# phase 4
+# phase 4 (currently not working)
 #
 
-# just going to keep the call history simply in memory
-# as opposed to a more complicated db setup
 call_history = {}
 
 @app.route('/phase4_response', methods=['GET', 'POST'])
